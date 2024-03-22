@@ -9,6 +9,7 @@ COPY package*.json ./
 
 # Install dependencies
 # RUN npm i -g npm@latest
+RUN npm install -g npm@latest
 RUN npm run
 
 # Copy the rest of the application code to the working directory
