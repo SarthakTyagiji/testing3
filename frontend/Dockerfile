@@ -1,23 +1,16 @@
-# Use the official Node.js image as base
-FROM node:14-alpine
-
-# Set the working directory
+# Stage 1: Build
+FROM node:16 AS builder
 WORKDIR /app
-
-# Copy package.json and package-lock.json to the working directory
 COPY package*.json ./
-
-# Set environment variable to allow npm to work with mismatched lockfile version
-ENV NPM_CONFIG_ALLOW_MISMATCHED=true
-
-# Install dependencies
 RUN npm install
-
-# Copy the rest of the application code to the working directory
 COPY . .
+RUN npm run build
 
-# Expose port 3000 to the outside world
+# Stage 2: Production Environment
+FROM node:16-alpine
+WORKDIR /app
+COPY --from=builder /app/build ./build
+COPY --from=builder /app/package*.json ./
+RUN npm install --only=production
 EXPOSE 3000
-
-# Command to run the application
-CMD ["npm", "start"]
+CMD ["node", "./build/index.js"]
