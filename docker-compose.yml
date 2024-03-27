@@ -1,12 +1,15 @@
 version: '3'
+
 services:
   frontend:
-    image: tyagisarthak/mern-frontend:latest
+    image: tyagisarthak/frontend-image:01
     ports:
-      - "3000:3000"
+      - "3000:80"
+    networks:
+      - mern-network
 
   backend:
-    image: tyagisarthak/mern-backend:latest
+    image: tyagisarthak/backend-image:01
     ports:
       - "8000:8000"
     environment:
@@ -14,9 +17,16 @@ services:
       - PORT=8000
     depends_on:
       - mongo
+    networks:
+      - mern-network
 
   mongo:
     image: mongo:latest
     ports:
       - "27017:27017"
+    networks:
+      - mern-network
 
+networks:
+  mern-network:
+    driver: bridge
