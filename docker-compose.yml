@@ -2,14 +2,14 @@ version: '3'
 
 services:
   frontend:
-    image: tyagisarthak/frontend-image:01
+    image: tyagisarthak/frontend1-image:01
     ports:
       - "3000:80"
     networks:
       - mern-network
 
   backend:
-    image: tyagisarthak/backend-image:01
+    image: tyagisarthak/backend1-image:01
     ports:
       - "8000:8000"
     environment:
